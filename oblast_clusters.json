@@ -1,0 +1,125 @@
+{
+  "clusters": {
+    "Completely Safe": {
+      "n": 10,
+      "composite_avg": 6.5,
+      "attack_pct_avg": 0.0,
+      "attack_rank_avg": 5.5,
+      "outage_avg": 0.072,
+      "outage_rank_avg": 7.7,
+      "border_avg": 0.0,
+      "border_rank_avg": 5.5,
+      "logistics_avg": 0.015,
+      "logistics_rank_avg": 7.3,
+      "members_en": [
+        "Zakarpattia",
+        "Volyn",
+        "Rivne",
+        "Zhytomyr",
+        "Ternopil",
+        "Ivano-Frankivsk",
+        "Vinnytsia",
+        "Khmelnytskyi",
+        "Chernivtsi",
+        "Lviv"
+      ]
+    },
+    "Somewhat Safe": {
+      "n": 5,
+      "composite_avg": 11.8,
+      "attack_pct_avg": 2.7,
+      "attack_rank_avg": 14.0,
+      "outage_avg": 0.075,
+      "outage_rank_avg": 9.4,
+      "border_avg": 0.032,
+      "border_rank_avg": 14.4,
+      "logistics_avg": 0.0,
+      "logistics_rank_avg": 9.4,
+      "members_en": [
+        "Kirovohrad",
+        "Cherkasy",
+        "Mykolaiv",
+        "Poltava",
+        "Chernihiv"
+      ]
+    },
+    "Not Safe at all": {
+      "n": 7,
+      "composite_avg": 18.4,
+      "attack_pct_avg": 20.1,
+      "attack_rank_avg": 18.3,
+      "outage_avg": 0.374,
+      "outage_rank_avg": 18.4,
+      "border_avg": 0.334,
+      "border_rank_avg": 18.0,
+      "logistics_avg": 0.529,
+      "logistics_rank_avg": 19.0,
+      "members_en": [
+        "Kyiv",
+        "Sumy",
+        "Odesa",
+        "Dnipropetrovsk",
+        "Zaporizhzhia",
+        "Kharkiv",
+        "Kherson"
+      ]
+    }
+  },
+  "top5_cities": [
+    {
+      "hromada": "Харківська",
+      "oblast_en": "Kharkiv",
+      "population": 1421125,
+      "overall_score": 0.443,
+      "oblast_cluster": "Not Safe at all",
+      "x1": 0.466,
+      "x2": 0.566,
+      "x3": 0.339,
+      "x4": "0.4"
+    },
+    {
+      "hromada": "Одеська",
+      "oblast_en": "Odesa",
+      "population": 1010537,
+      "overall_score": 0.293,
+      "oblast_cluster": "Not Safe at all",
+      "x1": 0.035,
+      "x2": 0.504,
+      "x3": 0.133,
+      "x4": "0.5"
+    },
+    {
+      "hromada": "Дніпровська",
+      "oblast_en": "Dnipropetrovsk",
+      "population": 971078,
+      "overall_score": 0.355,
+      "oblast_cluster": "Not Safe at all",
+      "x1": 0.237,
+      "x2": 0.549,
+      "x3": 0.034,
+      "x4": "0.6"
+    },
+    {
+      "hromada": "Донецька",
+      "oblast_en": "Donetsk",
+      "population": 926322,
+      "overall_score": 0.555,
+      "oblast_cluster": "Donetsk/Luhansk (excluded)",
+      "x1": 0.215,
+      "x2": 0.448,
+      "x3": 1.0,
+      "x4": null
+    },
+    {
+      "hromada": "Львівська",
+      "oblast_en": "Lviv",
+      "population": 777234,
+      "overall_score": 0.088,
+      "oblast_cluster": "Completely Safe",
+      "x1": 0.002,
+      "x2": 0.2,
+      "x3": 0.0,
+      "x4": "0.15"
+    }
+  ]
+}

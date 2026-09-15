@@ -1,0 +1,477 @@
+<title>Winter Safety Index Methodology</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Spectral:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#F6F7F9;
+    --surface:#FFFFFF;
+    --surface-2:#EFF1F4;
+    --ink:#1B2129;
+    --ink-muted:#5B6472;
+    --border:#D8DCE2;
+    --accent:#B5792B;
+    --accent-soft:#F1E3CD;
+    --good:#3E7C59;
+    --good-soft:#DEEEE5;
+    --warn:#B5792B;
+    --warn-soft:#F1E3CD;
+    --bad:#A14B42;
+    --bad-soft:#F3E0DD;
+    --shadow: 0 1px 2px rgba(27,33,41,0.04), 0 8px 24px -12px rgba(27,33,41,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#12161C;
+      --surface:#1A2029;
+      --surface-2:#212832;
+      --ink:#E7EAEE;
+      --ink-muted:#93A0AF;
+      --border:#2C3440;
+      --accent:#D79A4C;
+      --accent-soft:#3A2E1B;
+      --good:#6FB98A;
+      --good-soft:#1E3128;
+      --warn:#D79A4C;
+      --warn-soft:#3A2E1B;
+      --bad:#D07A70;
+      --bad-soft:#3A211F;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12161C;
+    --surface:#1A2029;
+    --surface-2:#212832;
+    --ink:#E7EAEE;
+    --ink-muted:#93A0AF;
+    --border:#2C3440;
+    --accent:#D79A4C;
+    --accent-soft:#3A2E1B;
+    --good:#6FB98A;
+    --good-soft:#1E3128;
+    --warn:#D79A4C;
+    --warn-soft:#3A2E1B;
+    --bad:#D07A70;
+    --bad-soft:#3A211F;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',system-ui,sans-serif;
+    line-height:1.55;
+    padding:56px 24px 96px;
+  }
+  .wrap{max-width:920px;margin:0 auto;}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:8px;height:8px;border-radius:50%;
+    background:var(--accent);
+    display:inline-block;
+  }
+
+  h1{
+    font-family:'Spectral',Georgia,serif;
+    font-weight:600;
+    font-size:clamp(30px,4vw,42px);
+    line-height:1.15;
+    margin:14px 0 10px;
+    text-wrap:balance;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--ink-muted);
+    font-size:16px;
+    max-width:62ch;
+    margin-bottom:36px;
+  }
+
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:44px;
+  }
+  .stat{
+    background:var(--surface);
+    padding:18px 16px;
+  }
+  .stat .n{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:26px;
+    font-weight:600;
+    font-variant-numeric:tabular-nums;
+  }
+  .stat .l{
+    font-size:12px;
+    color:var(--ink-muted);
+    margin-top:4px;
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    margin-bottom:22px;
+    overflow:hidden;
+  }
+  .card-head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:20px 24px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface-2);
+    flex-wrap:wrap;
+  }
+  .code{
+    font-family:'IBM Plex Mono',monospace;
+    font-weight:600;
+    font-size:15px;
+    color:var(--accent);
+    background:var(--accent-soft);
+    border-radius:8px;
+    padding:5px 10px;
+    letter-spacing:0.02em;
+  }
+  .card-head h2{
+    font-family:'Spectral',Georgia,serif;
+    font-size:21px;
+    font-weight:600;
+    margin:0;
+    flex:1 1 auto;
+    min-width:180px;
+  }
+  .pill{
+    font-size:12px;
+    font-weight:600;
+    padding:5px 12px;
+    border-radius:999px;
+    white-space:nowrap;
+    font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.01em;
+  }
+  .pill.good{background:var(--good-soft);color:var(--good);}
+  .pill.warn{background:var(--warn-soft);color:var(--warn);}
+  .pill.bad{background:var(--bad-soft);color:var(--bad);}
+
+  .card-body{
+    padding:22px 24px 26px;
+    display:grid;
+    grid-template-columns:150px 1fr;
+    gap:14px 20px;
+  }
+  .card-body .k{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--ink-muted);
+    font-weight:600;
+    padding-top:2px;
+  }
+  .card-body .v{font-size:14.5px;}
+  .card-body .v p{margin:0 0 8px;}
+  .card-body .v p:last-child{margin-bottom:0;}
+  .row-div{
+    grid-column:1 / -1;
+    height:1px;
+    background:var(--border);
+    margin:2px 0;
+  }
+
+  code, .mono{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.92em;
+    background:var(--surface-2);
+    padding:1px 6px;
+    border-radius:5px;
+  }
+
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+  .chip{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:7px;
+    padding:4px 9px;
+    color:var(--ink-muted);
+    font-variant-numeric:tabular-nums;
+  }
+  .chip b{color:var(--ink);font-weight:600;}
+
+  .formula{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:12px 14px;
+    overflow-x:auto;
+    color:var(--ink);
+    white-space:pre;
+  }
+
+  .gaps{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px 26px;
+    margin-top:36px;
+  }
+  .gaps h3{
+    font-family:'Spectral',Georgia,serif;
+    font-size:18px;
+    margin:0 0 12px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .gaps ul{margin:0;padding-left:20px;}
+  .gaps li{margin-bottom:9px;font-size:14px;color:var(--ink-muted);}
+  .gaps li:last-child{margin-bottom:0;}
+  .gaps li b{color:var(--ink);font-weight:600;}
+
+  footer{
+    margin-top:40px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+    font-size:12.5px;
+    color:var(--ink-muted);
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+
+  @media (max-width:640px){
+    .card-body{grid-template-columns:1fr;}
+    .card-body .k{padding-top:12px;}
+    .stats{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">Winter Safety Index &middot; hromada-level dataset</div>
+  <h1>Variables, sources &amp; normalization</h1>
+  <p class="sub">How X1&ndash;X4 are defined, where each comes from, and what's actually been turned into a comparable 0&ndash;1 score so far &mdash; current as of <span class="mono">hromada_combined_v6.csv</span>.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="n">1,469</div><div class="l">hromadas covered</div></div>
+    <div class="stat"><div class="n">24</div><div class="l">oblasts</div></div>
+    <div class="stat"><div class="n">4 / 4</div><div class="l">variables sourced</div></div>
+    <div class="stat"><div class="n">4 / 4</div><div class="l">normalized 0&ndash;1</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="code">X1</span>
+      <h2>Attack risk</h2>
+      <span class="pill good">normalized 0&ndash;1 &middot; hromada-level</span>
+    </div>
+    <div class="card-body">
+      <div class="k">Description</div>
+      <div class="v"><p>Intensity of missile, drone, and artillery activity affecting the hromada specifically &mdash; disaggregated down from oblast level.</p></div>
+      <div class="row-div"></div>
+
+      <div class="k">Data sources</div>
+      <div class="v">
+        <p><b>ACLED</b> Ukraine event data (registered-account export, weekly, oblast/admin1-level) &mdash; event counts for <code>Air/drone strike</code> and <code>Shelling/artillery/missile attack</code> sub-types.</p>
+        <p><b>Kaggle</b> &mdash; piterfm "massive-missile-attacks-on-ukraine" (national daily weapon-launch detail: Shahed, cruise, ballistic). Reference context only; not yet merged into a per-hromada column. Ukrainian Air Force stopped publishing ballistic-missile figures 2026-08-10; Shahed/cruise reporting continues.</p>
+      </div>
+      <div class="row-div"></div>
+
+      <div class="k">Methodology</div>
+      <div class="v">
+        <p>ACLED itself only publishes at oblast resolution (confirmed: every event in a given oblast/week shares one centroid coordinate). To get within-oblast spread, each oblast's total is <b>disaggregated across its hromadas by weighted share</b>, split by sub-event type since the two behave differently in space:</p>
+        <div class="formula">shelling_share(h) = exp(&minus;distance_to_frontline_km / 30) &divide; &Sigma; oblast
+   (short-range &rarr; concentrates near the front; occupied hromadas treated as distance 0)
+
+airdrone_share(h) = population_2022(h) &times; (0.5 + 0.5 &times; urban_pct(h)) &divide; &Sigma; oblast
+   (long-range &rarr; targets population/urban centers regardless of front-line distance)
+
+hromada_attack_events = oblast_shelling_total &times; shelling_share
+                       + oblast_airdrone_total &times; airdrone_share</div>
+        <p style="margin-top:10px;">Disaggregation is conservative &mdash; each oblast's hromada-level values sum back exactly to its original ACLED total, verified by spot-check. This is a <b>modeling assumption layered on real ACLED counts</b>, not a directly sourced hromada-level figure &mdash; the true within-oblast pattern could differ.</p>
+        <div class="chip-row">
+          <div class="chip">e.g. Zaporizhzhia oblast: city hromada <b>6,539</b> events (pop. 710k) vs Dniprorudne <b>193</b> (1.5km from the line, pop. 18k)</div>
+        </div>
+      </div>
+      <div class="row-div"></div>
+
+      <div class="k">Normalization</div>
+      <div class="v"><p>Min&ndash;max normalized across all 1,469 hromadas into <code>attack_risk_score</code>, range <span class="mono">0.000&ndash;1.000</span>.</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="code">X2</span>
+      <h2>Outage risk</h2>
+      <span class="pill good">normalized 0&ndash;1 composite</span>
+    </div>
+    <div class="card-body">
+      <div class="k">Description</div>
+      <div class="v"><p>Likelihood of heating/power/water disruption this winter, blending strike history, documented energy-infrastructure damage, and front-line exposure.</p></div>
+      <div class="row-div"></div>
+
+      <div class="k">Data sources</div>
+      <div class="v">
+        <p>X1's ACLED-derived strike counts (reused).</p>
+        <p><b>Hand-compiled facility register</b> (<code>documented_powerplant_damage.csv</code>) &mdash; 18 named power plants/substations/dams with status, dates and a source link each (Reuters, NV, Ukrainska Pravda, Wikipedia, DTEK reporting), geolocated to a hromada.</p>
+        <p>X3's front-line distance / occupation flag (reused).</p>
+      </div>
+      <div class="row-div"></div>
+
+      <div class="k">Methodology</div>
+      <div class="v">
+        <div class="formula">outage_risk_proxy =
+  0.20 &times; strike_history_norm
++ 0.75 &times; documented_damage_norm
++ 0.05 &times; frontline_occupation_flag</div>
+        <p style="margin-top:10px;">Damage term: a hromada hosting a documented facility takes that facility's severity (destroyed=3, damaged=2, at-risk=1) &divide; 3. Only 15 of 1,469 hromadas host one directly, so a hromada with none inherits <b>40% of its oblast's worst severity</b> &mdash; grid damage cascades regionally, and this avoids a flat zero for 99% of hromadas. 845 hromadas get this cascade signal; 609 have none documented anywhere in their oblast.</p>
+        <p>Front-line flag = 1 if currently occupied or &le;10&nbsp;km from the front line, else 0.</p>
+      </div>
+      <div class="row-div"></div>
+
+      <div class="k">Normalization</div>
+      <div class="v"><p>Fully normalized, range <span class="mono">0.000&ndash;1.000</span>. Highest: Nova Kakhovka hromada (destroyed dam, occupied, high strike activity).</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="code">X3</span>
+      <h2>Border / front-line proximity</h2>
+      <span class="pill good">normalized 0&ndash;1</span>
+    </div>
+    <div class="card-body">
+      <div class="k">Description</div>
+      <div class="v"><p>Distance from the hromada's center to the nearest currently-occupied territory boundary &mdash; the most direct proxy for shelling and ground-assault risk.</p></div>
+      <div class="row-div"></div>
+
+      <div class="k">Data sources</div>
+      <div class="v"><p><b>DeepState</b> occupied-territory map (<code>cyterat/deepstate-map-data</code> GitHub mirror, GPL-3.0, daily-updated GeoJSON).</p></div>
+      <div class="row-div"></div>
+
+      <div class="k">Methodology</div>
+      <div class="v">
+        <p>Point-to-polygon nearest-boundary distance computed with <code>shapely</code>, converted to km via haversine great-circle formula. Still the only variable computed independently per hromada rather than disaggregated or joined from an oblast average.</p>
+        <div class="chip-row">
+          <div class="chip">range: <b>0.4&ndash;776.6</b> km</div>
+          <div class="chip">currently occupied: <b>169</b> hromadas</div>
+          <div class="chip">as of: <b>2026-09-09</b>, refreshes with DeepState</div>
+        </div>
+      </div>
+      <div class="row-div"></div>
+
+      <div class="k">Normalization</div>
+      <div class="v">
+        <div class="formula">frontline_proximity_score =
+  1.0                          if currently_occupied
+  exp(&minus;distance_km / 30) otherwise</div>
+        <p style="margin-top:10px;">Same 30km decay scale as X1's shelling component, for consistency &mdash; risk falls off sharply within ~30km and is negligible past ~150&ndash;200km, which matches real artillery/rocket exposure patterns better than a linear scale would. Occupied hromadas are pinned to maximum risk outright, since "distance to the boundary" is ambiguous once you're inside it.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <span class="code">X4</span>
+      <h2>Logistics risk</h2>
+      <span class="pill warn">oblast-level proxy &middot; not normalized</span>
+    </div>
+    <div class="card-body">
+      <div class="k">Description</div>
+      <div class="v"><p>Difficulty of moving people, fuel, and supplies in/out &mdash; retail/food-logistics and transport-infrastructure exposure.</p></div>
+      <div class="row-div"></div>
+
+      <div class="k">Data sources</div>
+      <div class="v"><p>Carried over from Marie's prior "Winter Ukraine Displace Safe" analysis (<code>logistics_risk_dataset.csv</code>, from her <code>build_dataset.py</code>) &mdash; a hand-assigned 0&ndash;1 score per oblast built from two August 2026 news reports on warehouse strikes (Euromaidan Press, United24 Media), <b>not a systematic logistics-infrastructure census</b>.</p></div>
+      <div class="row-div"></div>
+
+      <div class="k">Methodology</div>
+      <div class="v">
+        <p>Joined onto every hromada by oblast, unchanged from the source table &mdash; no within-oblast disaggregation attempted here, since the rationale itself is mostly oblast-wide ("regional retail-distribution exposure") rather than tied to one location. One row (Kyiv oblast) does name a specific site &mdash; RLC-Kvitnev in Brovary &mdash; which could be pinned to its own hromada later the way X2's facilities were, if useful.</p>
+        <p><b>Important asymmetry Marie flagged:</b> 14 of 22 assessed oblasts score exactly 0.00, meaning "no source documented comparable infrastructure there" &mdash; not "confirmed low risk." <b>Donetsk and Luhansk aren't in the source table at all</b> and are kept as unassessed (blank), not zero, to preserve that distinction.</p>
+        <div class="chip-row">
+          <div class="chip">highest: Kyiv oblast <b>1.00</b> (Brovary warehouse strikes)</div>
+          <div class="chip">lowest nonzero: Lviv <b>0.15</b> (relocated hub, risk-mitigating)</div>
+          <div class="chip">22 of 24 oblasts assessed &middot; 2 unassessed (Donetsk, Luhansk)</div>
+        </div>
+      </div>
+      <div class="row-div"></div>
+
+      <div class="k">Normalization</div>
+      <div class="v"><p>Already on a 0&ndash;1 scale by construction, but not min&ndash;max normalized against the other variables and not hromada-differentiated &mdash; treat it as the weakest-evidenced of the four.</p></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:var(--accent);">
+    <div class="card-head">
+      <span class="code" style="background:var(--accent);color:var(--surface);">&Sigma;</span>
+      <h2>Overall winter-safety score</h2>
+      <span class="pill good">normalized 0&ndash;1 &middot; equal-weighted</span>
+    </div>
+    <div class="card-body">
+      <div class="k">Description</div>
+      <div class="v"><p>Single per-hromada ranking combining all four variables &mdash; this is what drives the "green cluster" comparison between a person's current location and candidate relocation destinations.</p></div>
+      <div class="row-div"></div>
+
+      <div class="k">Methodology</div>
+      <div class="v">
+        <div class="formula">overall_winter_safety_score = mean(X1, X2, X3, X4)   &larr; equal weight, 25% each</div>
+        <p style="margin-top:10px;"><b>Equal weighting is a default, not a confirmed decision</b> &mdash; Marie's prior analysis hasn't specified relative importance across X1&ndash;X4 yet, so all four count the same for now. For the 103 hromadas in Donetsk/Luhansk oblasts where X4 is unassessed (not zero), the mean is taken over the 3 available variables instead of dividing by a missing fourth &mdash; excluding a genuinely unknown input rather than guessing a number for it.</p>
+        <div class="chip-row">
+          <div class="chip">1,366 hromadas scored on 4/4 variables</div>
+          <div class="chip">103 hromadas scored on 3/4 (X4 unassessed)</div>
+        </div>
+      </div>
+      <div class="row-div"></div>
+
+      <div class="k">Highest risk</div>
+      <div class="v"><p>Kherson city hromada (0.697), Nova Kakhovka (0.649), Svitlodarsk (0.639), Enerhodar (0.540), Zaporizhzhia city (0.511).</p></div>
+      <div class="row-div"></div>
+
+      <div class="k">Lowest risk</div>
+      <div class="v"><p>A cluster of Volyn oblast hromadas near the Polish/Belarusian border score 0.000 across the board &mdash; a natural first candidate pool for "green cluster" destinations.</p></div>
+    </div>
+  </div>
+
+  <div class="gaps">
+    <h3>Known gaps &amp; caveats</h3>
+    <ul>
+      <li><b>X1's within-oblast spread is modeled, not directly sourced</b> &mdash; ACLED itself only publishes oblast totals; the split across hromadas (front-line decay for shelling, population for air/drone) is a defensible proxy, not a fact, and would benefit from validation against any facility- or city-level strike reporting.</li>
+      <li><b>X2's damage component is sparse by nature</b> &mdash; only 18 facilities documented by hand; the 40% oblast-cascade discount is a modeling choice, not a sourced number, and should be sanity-checked or replaced if a facility-level dataset becomes available.</li>
+      <li><b>Kyiv city is excluded</b> &mdash; it has separate administrative status and isn't one of the 1,469 KSE hromadas, so documented damage there (e.g. Kyiv TEC-5) can't be joined in.</li>
+      <li><b>The combined score's weighting is a placeholder</b> &mdash; equal 25% weights until Marie confirms whether some variables should count more than others, the way X2's sub-components were deliberately weighted 20/75/5.</li>
+      <li><b>X4 is the thinnest variable</b> &mdash; a 2-source, hand-assigned oblast score, not a downloaded dataset; its 0.00 values mean "undocumented," not "safe," and Donetsk/Luhansk are unassessed rather than zero.</li>
+      <li><b>DeepState source is GPL-3.0</b> &mdash; worth revisiting before any commercial or government redistribution of the front-line layer.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <span>hromada_combined_v6.csv &middot; 46 columns &middot; 1,469 rows</span>
+    <span>generated 2026-09-09</span>
+  </footer>
+</div>

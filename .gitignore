@@ -1,0 +1,14 @@
+# Large third-party upstream data clones (not this project's own IP; see README for sources)
+kse/
+deepstate/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
